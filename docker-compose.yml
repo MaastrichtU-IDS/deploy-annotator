@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  # annotator_client:
+  #   networks:
+  #     - annotator
+  web:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./data:/srv
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    networks: 
+      - annotator
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+    networks: 
+      - annotator
+
+volumes:
+  mongodb_data_container:
+
+networks: 
+  annotator:
